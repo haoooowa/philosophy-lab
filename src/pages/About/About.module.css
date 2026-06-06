@@ -1,0 +1,112 @@
+.page {
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-3xl);
+  max-width: 800px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.title {
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--color-text-primary), var(--color-accent-gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+}
+
+.section {
+  margin-bottom: var(--space-2xl);
+}
+
+.section h2 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-accent-gold);
+  margin-bottom: var(--space-md);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.section h2::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--color-border-gold);
+}
+
+.prose {
+  color: var(--color-text-secondary);
+  line-height: 2;
+}
+
+.prose p {
+  margin-bottom: var(--space-md);
+}
+
+.list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.list li {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.list li strong {
+  color: var(--color-accent-gold);
+  font-weight: 600;
+}
+
+.cta {
+  text-align: center;
+  margin-top: var(--space-xl);
+}
+
+.ctaBtn {
+  display: inline-block;
+  padding: 14px 36px;
+  background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-amber));
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-full);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.ctaBtn:hover {
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-gold-strong);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+}

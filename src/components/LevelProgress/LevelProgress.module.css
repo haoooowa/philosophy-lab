@@ -1,0 +1,116 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  max-width: 340px;
+  min-width: 220px;
+}
+
+.stages {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.stageDot {
+  font-size: 13px;
+  opacity: 0.2;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.stageCurrent {
+  opacity: 0.85;
+  font-size: 15px;
+}
+
+.stageDone {
+  opacity: 0.7;
+}
+
+.stageBar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1px;
+  margin: 0 4px;
+  overflow: hidden;
+}
+
+.stageFill {
+  height: 100%;
+  background: var(--color-accent-gold);
+  border-radius: 1px;
+  transition: width 0.6s ease;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge {
+  background: rgba(212,184,122,0.08);
+  border: 1px solid rgba(212,184,122,0.2);
+  border-radius: var(--radius-sm);
+  padding: 1px 8px;
+  color: var(--color-accent-gold);
+  font-weight: 700;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stageSummary {
+  display: flex;
+  gap: 4px;
+}
+
+.stageTag {
+  font-size: 9px;
+  padding: 0 4px;
+  border-radius: 3px;
+  transition: opacity 0.3s;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.xpLabel {
+  color: var(--color-text-muted);
+  font-size: 10px;
+  white-space: nowrap;
+  min-width: 56px;
+  text-align: right;
+}
+
+.bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent-gold), #e8d5a3);
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+@media (max-width: 768px) {
+  .wrap { display: none; }
+}

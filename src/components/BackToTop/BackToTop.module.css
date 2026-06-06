@@ -1,0 +1,36 @@
+.btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: var(--z-content);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-gold);
+  color: var(--color-accent-gold);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.btn:hover {
+  background: rgba(212, 184, 122, 0.15);
+  border-color: var(--color-accent-gold);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .btn { bottom: 16px; right: 16px; width: 36px; height: 36px; font-size: 16px; }
+}
