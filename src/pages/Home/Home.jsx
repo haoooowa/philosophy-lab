@@ -12,17 +12,24 @@ import { usePhilosophy } from '../../context/PhilosophyContext.jsx';
 import styles from './Home.module.css';
 
 export default function Home() {
-  const [featured, setFeatured] = useState(() => getRandomFeatured());
-  const { interactionCount, unlockedDifficulty } = usePhilosophy();
+  const { interactionCount, unlockedDifficulty, level } = usePhilosophy();
+  const [featured, setFeatured] = useState(() => {
+    // Only select from unlocked experiments for new visitors
+    return getRandomFeatured(1);
+  });
 
   const refreshFeatured = () => {
-    setFeatured(getRandomFeatured());
+    const available = getRandomFeatured(unlockedDifficulty || 1);
+    setFeatured(available);
   };
 
-  // Mark featured experiment as locked if above user's level
-  const featuredWithLock = featured
-    ? { ...featured, locked: featured.difficulty > unlockedDifficulty }
-    : null;
+  // Ensure featured is always unlocked when unlockedDifficulty changes
+  if (featured && featured.difficulty > (unlockedDifficulty || 1)) {
+    const available = getRandomFeatured(unlockedDifficulty || 1);
+    if (available && available.id !== featured.id) {
+      setFeatured(available);
+    }
+  }
 
   if (!featured) {
     return (
@@ -45,7 +52,7 @@ export default function Home() {
                 换一个 &#x21bb;
               </button>
             </div>
-            <ExperimentCard experiment={featuredWithLock} variant="featured" />
+            <ExperimentCard experiment={featured} variant="featured" />
           </section>
         </AnimatedSection>
 

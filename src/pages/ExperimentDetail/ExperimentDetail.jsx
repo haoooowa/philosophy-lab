@@ -15,6 +15,7 @@ export default function ExperimentDetail() {
   const { id } = useParams();
   useEffect(() => { window.scrollTo(0, 0); }, [id]);
   const navigate = useNavigate();
+  const { unlockedDifficulty } = usePhilosophy();
   const experiment = getExperimentWithReferences(id);
   const { prev, next } = getPrevNextExperiments(id);
 
@@ -38,19 +39,25 @@ export default function ExperimentDetail() {
     );
   }
 
+  // Block direct access to locked experiments
+  if (experiment.difficulty > unlockedDifficulty) {
+    return (
+      <div className={`container ${styles.notFound}`}>
+        <h1>暂未解锁</h1>
+        <p>这个思想实验属于更高难度等级，完成更多实验提升等级后即可访问。</p>
+        <p style={{color:'var(--color-text-muted)',fontSize:'var(--text-sm)',marginTop:'var(--space-xs)'}}>
+          当前可访问难度：{unlockedDifficulty === 1 ? '入门' : unlockedDifficulty === 2 ? '进阶' : '挑战'} ·
+          本实验难度：{experiment.difficulty === 1 ? '入门' : experiment.difficulty === 2 ? '进阶' : '挑战'}
+        </p>
+        <Link to="/browse">← 返回浏览</Link>
+      </div>
+    );
+  }
   const {
-    title,
-    philosopher,
-    era,
-    difficulty,
-    categories,
-    content,
-    relatedIds,
-    stats,
-    readingTime,
+    title, philosopher, era, difficulty, categories,
+    content, relatedIds, stats, readingTime,
   } = experiment;
 
-  const { unlockedDifficulty } = usePhilosophy();
   // Random unlocked experiments (excluding current one)
   const randomExperiments = useMemo(() => {
     const pool = experiments.filter(e => e.id !== id && e.difficulty <= unlockedDifficulty);

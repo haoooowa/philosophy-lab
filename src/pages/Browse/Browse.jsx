@@ -11,6 +11,7 @@ import styles from './Browse.module.css';
 export default function Browse() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState('');
+  const [showLocked, setShowLocked] = useState(false);
   const { unlockedDifficulty, level } = usePhilosophy();
 
   const activeCategory = searchParams.get('category') || '全部';
@@ -86,8 +87,16 @@ export default function Browse() {
     }));
   }, [activeCategory, activeDifficulty, search, unlockedDifficulty, activeSubcategory, pathIds]);
 
-  const lockedCount = filtered.filter((e) => e.locked).length;
-  const unlockedCount = filtered.length - lockedCount;
+  // Split into unlocked vs locked
+  const { unlocked, locked } = useMemo(() => {
+    const u = filtered.filter((e) => !e.locked);
+    const l = filtered.filter((e) => e.locked);
+    return { unlocked: u, locked: l };
+  }, [filtered]);
+
+  // Show unlocked by default; optionally show locked
+  const displayed = showLocked ? filtered : unlocked;
+  const hiddenCount = locked.length;
 
   return (
     <div className={`container ${styles.browse}`}>
@@ -165,14 +174,39 @@ export default function Browse() {
       </div>
 
       <div className={styles.resultInfo}>
-        <span>共 {filtered.length} 个实验 · 已解锁 {unlockedCount} 个</span>
-        {lockedCount > 0 && (
-          <span className={styles.lockHint}>🔒 {lockedCount} 个待解锁（需要 {level.title} 等级提升）</span>
+        <span>共 {unlocked.length} 个可访问实验</span>
+        {hiddenCount > 0 && !showLocked && (
+          <span className={styles.lockHint}>另有 {hiddenCount} 个待解锁（提升等级以解锁更多难度）</span>
+        )}
+        {showLocked && hiddenCount > 0 && (
+          <span className={styles.lockHint}>已显示全部 {filtered.length} 个（含未解锁）</span>
         )}
       </div>
 
-      {filtered.length > 0 ? (
-        <ExperimentGrid experiments={filtered} searchTerm={search} />
+      {displayed.length > 0 ? (
+        <>
+          <ExperimentGrid experiments={displayed} searchTerm={search} />
+          {!showLocked && hiddenCount > 0 && (
+            <div className={styles.showLockedRow}>
+              <button
+                className={styles.showLockedBtn}
+                onClick={() => setShowLocked(true)}
+              >
+                显示 {hiddenCount} 个未解锁实验
+              </button>
+            </div>
+          )}
+          {showLocked && hiddenCount > 0 && (
+            <div className={styles.showLockedRow}>
+              <button
+                className={styles.showLockedBtn}
+                onClick={() => setShowLocked(false)}
+              >
+                隐藏未解锁实验
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className={styles.empty}>
           <p>未找到匹配的思想实验</p>

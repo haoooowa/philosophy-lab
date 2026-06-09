@@ -79,10 +79,15 @@ export function getPrevNextExperiments(id) {
   };
 }
 
-export function getRandomFeatured() {
-  const featured = experiments.filter((e) => e.featured);
-  if (featured.length === 0) return experiments[0];
-  return featured[Math.floor(Math.random() * featured.length)];
+export function getRandomFeatured(maxDifficulty = 3) {
+  const available = experiments.filter((e) => e.featured && e.difficulty <= maxDifficulty);
+  if (available.length === 0) {
+    // Fallback: any unlocked experiment
+    const fallback = experiments.filter((e) => e.difficulty <= maxDifficulty);
+    if (fallback.length === 0) return experiments[0];
+    return fallback[Math.floor(Math.random() * fallback.length)];
+  }
+  return available[Math.floor(Math.random() * available.length)];
 }
 
 export const CATEGORIES = [
